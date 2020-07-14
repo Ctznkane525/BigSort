@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>FixWidthFile.BigSort</PackageId>
+    <Company>FixWidthFile</Company>
+    <Product>Big Sort</Product>
+    <Description>This is intended to support the sorting of large fixed width files based on a given key, which is a set of positions and lengths in the file.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Ctznkane525/BigSort</RepositoryUrl>
+    <PackageReleaseNotes>FixWidthFile Big Sort C#</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

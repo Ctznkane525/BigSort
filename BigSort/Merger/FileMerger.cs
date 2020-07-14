@@ -13,20 +13,22 @@ namespace BigSort.Merger
 
         private string OutFile { get; set; }
 
-        public FileMerger(List<string> inFiles, string outFile, CompareString Cs)
+        private MergeFileOptions MergeOptions { get; set; }
+
+        public FileMerger(MergeFileOptions mo)
         {
-            this.InFiles = inFiles;
-            this.Cs = Cs;
-            this.OutFile = outFile;
+            this.InFiles = mo.InFiles;
+            this.Cs = mo.Cs;
+            this.OutFile = mo.OutFile;
+            this.MergeOptions = mo;
         }
 
         public void MergeFiles()
         {
             int chunks = this.InFiles.Count; // Number of chunks
-            int recordsize = 100; // estimated record size
-            int records = 10000000; // estimated total # records
-            int maxusage = 500000000; // max memory usage
-            int buffersize = maxusage / chunks; // bytes of each queue
+            int recordsize = MergeOptions.EstimatedRecordLength; // estimated record size
+            long maxusage = MergeOptions.BufferSize; // max memory usage
+            long buffersize = maxusage / chunks; // bytes of each queue
             double recordoverhead = 7.5; // The overhead of using Queue<>
             int bufferlen = (int)(buffersize / recordsize /
               recordoverhead); // number of records in each queue

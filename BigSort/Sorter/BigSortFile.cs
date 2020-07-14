@@ -25,9 +25,11 @@ namespace BigSort.Sorter
 
         private FileMerger Merger { get; set; }
 
-        private int Buffer { get; set; }
+        private long BufferSize { get; set; }
 
         private List<string> SingleSortedFiles { get; set; }
+
+        private int EstimatedRecordLength { get; set; }
 
         public BigSortFile(BigSortFileOptions options)
         {
@@ -35,16 +37,20 @@ namespace BigSort.Sorter
             this.OutFile = options.OutFile;
             this.StringCompare = options.Cs;
             this.Encoding = options.Encoding;
-            this.Splitter = new FileSplitter(this.InFile, options.TempFolderPath, options.Buffer);
+            this.Splitter = new FileSplitter(this.InFile, options.TempFolderPath, options.BufferSize);
             this.Splitter.CleanupFiles = options.CleanupFiles;
             this.CleanupFiles = options.CleanupFiles;
-            this.Buffer = options.Buffer;
+            this.BufferSize = options.BufferSize;
+            this.EstimatedRecordLength = options.EstimatedRecordLength;
         }
 
         public void Sort()
         {
 
-            if (new FileInfo(InFile).Length < this.Buffer)
+            SingleSortedFiles = new List<string>();
+
+
+            if (new FileInfo(InFile).Length < this.BufferSize)
             {
                 var ssf = new SingleSortFile(InFile, OutFile, StringCompare, Encoding);
                 ssf.SortFile();
@@ -53,8 +59,7 @@ namespace BigSort.Sorter
             {
                 // Split the Files
                 this.Splitter.SplitFiles();
-                SingleSortedFiles = new List<string>();
-
+                
                 // Sort Each File
                 foreach (var file in this.Splitter.OutFiles)
                 {
@@ -65,7 +70,7 @@ namespace BigSort.Sorter
                 }
 
                 // Merge Them Back
-                var fm = new FileMerger(SingleSortedFiles, OutFile, StringCompare);
+                var fm = new FileMerger(new MergeFileOptions(SingleSortedFiles, OutFile, StringCompare) { BufferSize = this.BufferSize, EstimatedRecordLength = this.EstimatedRecordLength });
                 fm.MergeFiles();
             }
         }

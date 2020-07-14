@@ -14,12 +14,14 @@ namespace BigSort.Sorter
             this.Cs = cs;
             this.Encoding = encoding;
             this.TempFolderPath = System.IO.Path.GetTempPath();
-            this.Buffer = 256 * 1024 * 1024;
+            this.BufferSize = 256L * 1024L * 1024L;
         }
 
         public string TempFolderPath { get; set; }
 
-        public int Buffer { get; set; }
+        public long BufferSize { get; set; }
+
+        public int EstimatedRecordLength { get; set; } = 100;
 
         public bool CleanupFiles { get; set; } = true;
 

@@ -80,8 +80,8 @@ namespace BigSort.Test
 
         
         [TestMethod]
-        [DataRow("1:100", 100, 10000000, 2048)]
-        public void SortFileBig(string sortKey, int textLength, int numRow, int bufferSizeMb)
+        [DataRow("1:100", 100, 10000000, 256)]
+        public void SortFileBig(string sortKey, int textLength, int numRow, long bufferSizeMb)
         {
             var inFile = "INFILE.TXT";
             var outFile = "OUTFILE.TXT";
@@ -98,8 +98,9 @@ namespace BigSort.Test
                 new Compare.CompareString(sortKey), System.Text.Encoding.Default)
             {
                 TempFolderPath = ".",
-                Buffer = bufferSizeMb * 1024 * 1024,
-                CleanupFiles = false
+                BufferSize = bufferSizeMb * 1024L * 1024L,
+                CleanupFiles = true,
+                EstimatedRecordLength = 100
                 
             }))
             {

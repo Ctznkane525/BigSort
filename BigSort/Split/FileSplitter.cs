@@ -13,15 +13,15 @@ namespace BigSort.Split
 
         public List<string> OutFiles { get; private set; }
 
-        private int BufferSize { get; set; }
+        private long BufferSize { get; set; }
 
         public bool CleanupFiles { get; set; } = true;
 
-        public FileSplitter(string inFile, string tempFolder) : this(inFile, tempFolder, 16 * 1024 * 1024)
+        public FileSplitter(string inFile, string tempFolder) : this(inFile, tempFolder, 16L * 1024L * 1024L)
         {
         }
 
-        public FileSplitter(string inFile, string tempFolder, int bufferSize)
+        public FileSplitter(string inFile, string tempFolder, long bufferSize)
         {
             this.InFile = inFile;
             this.TempFolder = tempFolder;
