@@ -7,6 +7,7 @@ A couple examples:
 
 In this one, we have a sorting key where we're using the first 5 characters of each line.  The encoding is the default encoding.  Our buffer size is 256 MB, and our temp path is the current directory.
 
+  ```csharp
   using (BigSortFile bsf = new BigSortFile(new BigSortFileOptions(inFile, outFile,
       new Compare.CompareString("1:5"), System.Text.Encoding.Default)
   {
@@ -17,10 +18,12 @@ In this one, we have a sorting key where we're using the first 5 characters of e
   {
       bsf.Sort();
   }
+  ```
 
 In this second example, the sorting key starts at line position 1 with a length of 5, the buffer is 128 MB and the temp path that is used is the computer's temp directory.
   
-    using (BigSortFile bsf = new BigSortFile(new BigSortFileOptions(inFile, outFile,
+  ```csharp
+  using (BigSortFile bsf = new BigSortFile(new BigSortFileOptions(inFile, outFile,
       new Compare.CompareString("2:5"), System.Text.Encoding.Default)
   {
       TempFolderPath = System.IO.Path.GetTempPath(),
@@ -30,5 +33,6 @@ In this second example, the sorting key starts at line position 1 with a length 
   {
       bsf.Sort();
   }
+  ```
 
 
